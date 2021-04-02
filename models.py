@@ -1,5 +1,8 @@
 from random import random
 
+from exceptions import EnemyDown, GameOver
+from settings import PL
+
 """
 models.py - class Enemy:
     свойства - level, lives.
@@ -14,13 +17,19 @@ class Enemy:
     def __init__(self, level, lives):
         self.level = level
         self.lives = lives
+        self.level = self.lives
+
+    level = 1
 
     @staticmethod
     def select_attack():
-        return random.randint(1, 3)
+        enemy_obj = random.randint(1, 3)
+        return enemy_obj
 
     def decrease_lives(self):
-        pass
+        res = self.lives - 1
+        if res == 0:
+            return EnemyDown
 
 
 """
@@ -45,6 +54,49 @@ class Player:
         self.score = score
         self.allowed_attacks = allowed_attacks
 
+    score = 0
+    lives = PL
+
+    def attack(self, enemy_obj):
+        self.fight(self.allowed_attacks, enemy_obj)
+        if win == 0:
+            print("It's a draw!")
+        if win == 1:
+            Enemy.decrease_lives()
+            print("You attacked successfully!")
+        if win == 2:
+            print("You missed!")
+
+    def defence(self, enemy_obj):
+        self.fight(enemy_obj, self.allowed_attacks)
+        if win == 0:
+            print("It's a draw!")
+        if win == 1:
+            print("You attacked successfully!")
+        if win == 2:
+            Player.decrease_lives()
+            print("You missed!")
+
     @staticmethod
     def fight(attack, defense):
-        pass
+        global win
+        if attack == defense:
+            win = 0
+        if attack == 1 and defense == 2:
+            win = 1
+        if attack == 1 and defense == 3:
+            win = 2
+        if attack == 2 and defense == 1:
+            win = 2
+        if attack == 2 and defense == 3:
+            win = 1
+        if attack == 3 and defense == 1:
+            win = 1
+        if attack == 3 and defense == 2:
+            win = 2
+        return win
+
+    def decrease_lives(self):
+        res = self.lives - 1
+        if res == 0:
+            return GameOver

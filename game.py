@@ -12,14 +12,19 @@ from models import Player
 
 def play():
     pl_name = input('Input Your Name : ')
-    name = Player(name=pl_name, lives=)
+    name = Player(name=pl_name, lives=1, score=0, allowed_attacks=int(input('1 - wizard, 2 - warrior, 3 - roque: ')))
+
+
+def enemy():
+    pass
 
 
 if __name__ == '__main__':
     try:
         play()
-
+        
     except:
+        pass
 
 
 
